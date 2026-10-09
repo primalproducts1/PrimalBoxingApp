@@ -1,0 +1,1 @@
+PRIMAL: versión MP3. Sube todos los archivos de esta carpeta directamente a la raíz de tu repositorio GitHub. Conserva audio/primal-background.mp3 y coach-audio/. Para música usa el botón Reproducir; los navegadores pueden bloquear reproducción automática. El archivo de video incluye la música cuando el dispositivo permite mezclarla, pero la voz exportada todavía es provisional.

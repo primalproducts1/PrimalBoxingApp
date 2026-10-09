@@ -1,0 +1,16 @@
+PRIMAL – CORRECCIÓN DE PUBLICACIÓN EN GITHUB PAGES
+
+Tu repositorio primalproducts1/PrimalBoxing está mostrando README.md porque falta index.html en su raíz.
+
+1. Descomprime este ZIP.
+2. Entra en https://github.com/primalproducts1/PrimalBoxing
+3. Pulsa Add file > Upload files.
+4. Abre la carpeta PRIMAL_LISTO_PARA_SUBIR_GITHUB y ARRASTRA TODO SU CONTENIDO (archivos y subcarpetas) al navegador, no la carpeta superior ni el ZIP.
+5. Confirma que GitHub muestra index.html, primal.png, primal-favicon.png y audio/primal-background.mp3, además de los demás archivos.
+6. Commit changes.
+7. En Settings > Pages elige Deploy from a branch, main y /(root), si no está ya configurado.
+8. Abre https://primalproducts1.github.io/PrimalBoxing/ después de terminar el despliegue y actualiza con Ctrl+Shift+R.
+
+NOTA: se ha recomprimido el MP3 de fondo a 48 kb/s para bajar de 25 MiB (limite de GitHub desde navegador), conservando ~60 minutos pero con menor calidad de sonido. Para conservar la calidad original de ~96 kb/s, súbelo con GitHub Desktop o git (su archivo original supera 25 MiB).
+
+Usa únicamente audio con derechos de distribución y de incorporación a videos.
