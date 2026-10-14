@@ -1,115 +1,116 @@
 'use strict';
-/* PRIMAL Music: user-provided, pre-attenuated MP3.
-   The native HTML audio element plays for the athlete. A synchronized second
-   element enters the recorder's AudioContext, so the exported video carries
-   the same background music without requesting microphone capture.
-   Video voice remains the current provisional bank; Web Speech TTS is not
-   directly recordable from a browser. */
+/* PRIMAL ORIGINAL audio player — stable championship activation.
+ * A single HTMLAudioElement and a single AudioContext are shared by
+ * coach and recorder. No duplicate music players, no extra soundtrack.
+ */
 (() => {
-  const $ = id => document.getElementById(id);
-  const I = window.PrimalI18n;
-  const T = (es,en) => I.lang==='en'?en:es;
-  const audio = $('backgroundMusic');
-  const toggle = $('musicToggle');
-  const stageToggle = $('recordStageMusic');
-  const status = $('musicStatus');
-  const volumeInput = $('musicVolume');
-  let capture=null, captureSource=null, captureGain=null, recordingCtx=null, syncTimer=null;
-  let userPaused=false;
-  // Safari/iOS may ignore JS volume changes; the actual MP3 is mastered low.
-  const iOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
-  if(iOS) volumeInput.closest('label').hidden=true;
-  const safeTime = t => Number.isFinite(t) && t >= 0 ? t : 0;
-
+  const $=id=>document.getElementById(id);
+  const T=(es,en)=>window.PrimalI18n?.lang==='en'?en:es;
+  const audio=$('backgroundMusic'),toggle=$('musicToggle'),stageToggle=$('recordStageMusic');
+  const status=$('musicStatus'),volumeInput=$('musicVolume');
+  if(!audio||!toggle||!volumeInput||!status){console.error('PRIMAL Music: missing original controls');return;}
+  let context=null,source=null,output=null,mixer=null;
+  let userPaused=false,priming=false,blocked=false,primeGeneration=0,pendingPlay=null;
+  let transportGeneration=0;
+  const inRound=()=>['prepare','work'].includes(document.body.dataset.state);
+  function statusText(){
+    if(audio.error) return T('No se pudo cargar audio/primal-background.mp3. Comprueba que esté en GitHub.','Missing audio/primal-background.mp3 in GitHub.');
+    if(blocked) return T('El navegador bloqueó el audio. Pulsa «Activar música».','Browser blocked playback. Tap Enable music.');
+    if(userPaused) return T('Música desactivada.','Music disabled.');
+    if(!audio.paused&&inRound()&&!priming)return T('Música de entrenamiento · volumen bajo','Workout music · low volume');
+    return T('Automática desde «Prepárate» y durante los rounds.','Automatic from warmup and during rounds.');
+  }
   function render(){
-    const playing=!audio.paused && !audio.ended;
-    toggle.textContent=playing?T('Ⅱ Pausar música','Ⅱ Pause music'):T('▶ Reproducir música','▶ Play music');
-    toggle.setAttribute('aria-pressed',String(playing));
-    if(stageToggle){stageToggle.textContent=playing?T('Ⅱ Música','Ⅱ Music'):T('▶ Música','▶ Music');stageToggle.setAttribute('aria-pressed',String(playing));}
-    status.textContent=audio.error?T('No se pudo cargar el MP3. Verifica el archivo audio/primal-background.mp3.','Could not load music. Check audio/primal-background.mp3.'):
-      playing?T('Música de fondo · volumen bajo','Background music · low volume'):
-      T('Toca Reproducir para activar la música.','Tap Play to start music.');
+    const label=blocked?T('▶ Activar audio','▶ Enable audio'):userPaused?T('♫ Activar música','♫ Enable music'):T('♫ Desactivar música','♫ Disable music');
+    for(const b of [toggle,stageToggle])if(b){b.textContent=label;b.setAttribute('aria-pressed',String(!userPaused));}
+    status.textContent=statusText();
   }
   function setVolume(){
-    // iOS Safari may ignore HTMLMediaElement.volume; the MP3 is already mastered quietly.
-    let amount=Number(volumeInput.value);
-    if(!Number.isFinite(amount))amount=100;
-    const level=Math.max(0,Math.min(1,amount/100));
-    try{audio.volume=level}catch{}
-    if(captureGain)captureGain.gain.value=level;
+    const level=Math.max(0,Math.min(1,(Number(volumeInput.value)||0)/100));
+    if(output){audio.volume=1;output.gain.value=level*2;}
+    else audio.volume=level;
   }
-  function play(){
-    userPaused=false;
-    // play() is always attempted on a user gesture when possible. Autoplay
-    // can legitimately be blocked by the browser.
-    const p=audio.play();
-    if(p?.catch)p.catch(()=>{render();});
+  function getContext(){
+    if(!context){
+      const AudioCtor=window.AudioContext||window.webkitAudioContext;
+      if(!AudioCtor) throw Error('WebAudio unavailable');
+      context=new AudioCtor();
+      context.addEventListener?.('statechange',()=>{
+        if(inRound()&&context.state==='interrupted')unlock();
+        render();
+      });
+      source=context.createMediaElementSource(audio);
+      output=context.createGain();source.connect(output);output.connect(context.destination);setVolume();
+    }
+    return context;
+  }
+  function unlock(){
+    try{if(navigator.audioSession&&!window.PrimalRecorder?.active)navigator.audioSession.type='playback';}catch{}
+    try {const c=getContext();if(c.state!=='running')void c.resume().catch(e=>{blocked=true;render();console.warn('PRIMAL: could not unlock sound',e);});}
+    catch(e){console.warn('PRIMAL: WebAudio unavailable; fallback to HTML audio',e);}
+  }
+  function stopAudio(){++transportGeneration;pendingPlay=null;if(!audio.paused)audio.pause();}
+  function playDirect(){
+    if(!inRound()||userPaused)return;
+    priming=false;audio.muted=false;blocked=false;unlock();
+    try{
+      const generation=++transportGeneration;const p=audio.play();pendingPlay=p;
+      if(p?.catch)p.catch(e=>{if(pendingPlay!==p||generation!==transportGeneration||!inRound()||userPaused||e.name==='AbortError')return;blocked=true;render();console.warn('PRIMAL: music playback rejected',e);});
+      render();return p;
+    }catch(e){blocked=true;render();console.warn('PRIMAL: music playback failed',e);}
+  }
+  function reconcile(){
+    if(!inRound()||userPaused){if(!priming)stopAudio();}
+    else if(audio.paused&&!priming&&!blocked)playDirect();
     render();
-    return p;
   }
-  function pause(){
-    userPaused=true;
-    audio.pause();
-    capture?.pause();
+  /* Called synchronously INSIDE the genuine click event (not after an await)
+   * and after the original trainer sets data-state=prepare. */
+  function startFromGesture(force=false){
+    ++primeGeneration;priming=false;audio.muted=false;
+    if(force)userPaused=false;
+    blocked=false;unlock();
+    if(inRound()&&!userPaused)return playDirect();
     render();
   }
-  function toggleMusic(){if(audio.paused)play();else pause();}
+  function prime(){
+    if(userPaused)return;
+    if(inRound()){startFromGesture(false);return;}
+    if(priming)return;
+    const id=++primeGeneration;
+    priming=true;blocked=false;unlock();audio.muted=true;
+    const settle=()=>{
+      if(id!==primeGeneration)return;
+      audio.muted=false;priming=false;if(!inRound()||userPaused)stopAudio();reconcile();
+    };
+    try{Promise.resolve(audio.play()).then(settle,settle);}catch{settle();}
+  }
+  function toggleMusic(){
+    if(blocked){userPaused=false;startFromGesture(true);return;}
+    userPaused=!userPaused;
+    if(userPaused){++primeGeneration;priming=false;audio.muted=false;stopAudio();render();}
+    else if(inRound())startFromGesture(true);
+    else prime();
+  }
+  function attachRecorder(ctx,destination){detachRecorder();if(ctx!==getContext())throw Error('Recording must use shared AudioContext');mixer=destination;output.connect(mixer);return true;}
+  function detachRecorder(){if(output&&mixer){try{output.disconnect(mixer);}catch{}}mixer=null;}
+  function recover(){blocked=false;unlock();reconcile();}
   toggle.addEventListener('click',toggleMusic);
   stageToggle?.addEventListener('click',toggleMusic);
   volumeInput.addEventListener('input',setVolume);
-
-  async function syncCapture(){
-    if(!capture)return;
-    if(audio.paused||audio.ended){if(!capture.paused)capture.pause();return;}
-    const from=safeTime(audio.currentTime);
-    try{
-      if(Math.abs(safeTime(capture.currentTime)-from)>0.25)capture.currentTime=from;
-      if(capture.paused){const p=capture.play();if(p?.catch)p.catch(err=>console.warn('Recording music playback was blocked',err));}
-    }catch(err){console.warn('Cannot sync recording music',err);}
-  }
-  function attachRecorder(context,mixer){
-    detachRecorder();
-    if(!context?.createMediaElementSource||!mixer)return false;
-    try{
-      capture=new Audio(audio.currentSrc||audio.src);
-      capture.preload='auto';capture.loop=true;capture.playsInline=true;
-      capture.crossOrigin='anonymous';
-      // The capture audio never goes directly to the speakers: only to the
-      // saved-video mixer, so there is no duplicate sound or microphone echo.
-      captureSource=context.createMediaElementSource(capture);
-      captureGain=context.createGain();captureGain.gain.value=1;
-      captureSource.connect(captureGain).connect(mixer);
-      recordingCtx=context;
-      setVolume();
-      void syncCapture();
-      syncTimer=setInterval(syncCapture,2500);
-      return true;
-    }catch(err){console.warn('Music could not be connected to video mixer',err);detachRecorder();return false;}
-  }
-  function detachRecorder(){
-    if(syncTimer){clearInterval(syncTimer);syncTimer=null;}
-    if(capture){try{capture.pause();capture.removeAttribute('src');capture.load()}catch{}}
-    try{captureSource?.disconnect()}catch{}
-    try{captureGain?.disconnect()}catch{}
-    capture=null;captureSource=null;captureGain=null;recordingCtx=null;
-  }
-  audio.addEventListener('play',()=>{void syncCapture();render();});
-  audio.addEventListener('pause',()=>{void syncCapture();render();});
-  audio.addEventListener('seeked',()=>{void syncCapture();render();});
-  audio.addEventListener('error',render);
-  audio.addEventListener('canplay',render);
+  audio.addEventListener('play',()=>{if(!priming&&(!inRound()||userPaused))stopAudio();render();});
+  for(const evt of ['pause','error','canplay','ended','playing'])audio.addEventListener(evt,render);
+  audio.addEventListener('canplay',()=>{if(!blocked)reconcile();});
+  const start=$('start'),recordStart=$('recordStart');
+  start?.addEventListener('click',()=>{if(inRound())startFromGesture(false);else{unlock();reconcile();}});
+  recordStart?.addEventListener('click',()=>{unlock();if(inRound())startFromGesture(false);else prime();});
+  new MutationObserver(reconcile).observe(document.body,{attributes:true,attributeFilter:['data-state']});
   document.addEventListener('tyson-language-change',render);
-  $('start').addEventListener('click',()=>{if(!userPaused)void play();});
-  $('recordStart').addEventListener('click',()=>{if(!userPaused)void play();});
   window.PrimalMusic={
-    voiceStart(){ /* Background MP3 is already attenuated for speech. */ },
-    voiceEnd(){},
-    tryStart(){if(!userPaused)void play();},
-    attachRecorder,detachRecorder,syncRecorder:syncCapture,
-    get isPlaying(){return !audio.paused;},
-    get source(){return audio.currentSrc||audio.src;}
+    voiceStart(){},voiceEnd(){},tryStart:reconcile,getContext,unlock,recover,
+    startFromGesture,attachRecorder,detachRecorder,syncRecorder:reconcile,
+    get isPlaying(){return !audio.paused;},get source(){return audio.currentSrc||audio.src;},
+    get isEnabled(){return !userPaused;}
   };
   setVolume();render();
-  // Browser might reject this attempt; the play button remains available.
-  void play();
 })();

@@ -1,55 +1,37 @@
- 'use strict';
-/* PRIMAL: voz del sistema operativo (más natural que clips sintéticos cortados).
-   IMPORTANTE: SpeechSynthesis no ofrece pista de audio para MediaRecorder.
-   En grabación escuchas esta misma voz; el video conserva una pista grabable
-   provisional independiente hasta integrar audios profesionales autorizados. */
-(() => {
- const I=window.PrimalI18n, synth=window.speechSynthesis;
- const $=id=>document.getElementById(id);
- let available=[], active=null, serial=0;
- const locale=()=>I.lang==='en'?'en-US':'es-CO';
- const score=v=>{
-   const n=v.name.toLowerCase();let s=0;
-   if(/premium|enhanced|neural|natural|siri/.test(n))s+=90;
-   if(/google|microsoft/.test(n))s+=12;
-   if(/jorge|diego|juan|carlos|david|pablo|daniel|alex|aaron/.test(n))s+=16;
-   if(/es-co|es-mx|en-us/i.test(v.lang))s+=10;
-   if(v.localService)s+=5;
-   return s;
- };
- function update(){
-   const sel=$('voices');if(!sel)return;
-   const old=sel.value;
-   available=synth? synth.getVoices().filter(v=>v.lang.toLowerCase().startsWith(I.lang)):[];
-   sel.replaceChildren();
-   if(!synth){sel.add(new Option(I.lang==='en'?'Voice unavailable':'Voz no disponible',''));sel.disabled=true;return;}
-   for(const v of available){sel.add(new Option(v.name+' · '+v.lang,v.voiceURI));}
-   if(!available.length)sel.add(new Option(I.lang==='en'?'Automatic English voice':'Voz automática en español',''));
-   const selected=available.find(v=>v.voiceURI===old)||[...available].sort((a,b)=>score(b)-score(a))[0];
-   if(selected)sel.value=selected.voiceURI;
-   sel.disabled=false;
-   const note=$('audioNote');if(note)note.textContent=I.lang==='en'?'The voice quality depends on voices installed on your device.':'La calidad depende de las voces instaladas en tu equipo. En iPhone prueba voces mejoradas en Ajustes → Accesibilidad → Contenido leído.';
- }
- function stop(){serial++;if(active){active.onend=null;active.onerror=null;active=null;}try{synth?.cancel()}catch{}}
+'use strict';
+/* One prerecorded PRIMAL coach, one audio graph, with or without video. */
+(()=>{
+ const $=id=>document.getElementById(id),I=window.PrimalI18n;
+ const cache=new Map();let serial=0,sources=[],ctx=null,output=null,mixer=null;
+ const normalise=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/^[¡¿]|[.!?¡¿]+$/g,'').replace(/\s+/g,' ').replace(/\byab\b/g,'jab');
+ function graph(){const c=window.PrimalMusic.getContext();if(!output){ctx=c;output=ctx.createGain();output.gain.value=.95;output.connect(ctx.destination);}return c;}
+ async function prepare(){const c=graph();if(c.state!=='running')await c.resume();const id=I.lang+'-'+$('stance').value,bank=window.PrimalVoiceBank[id];if(!bank)throw Error('Voice bank unavailable');if(!cache.has(id)){const pending=fetch(bank.url).then(r=>{if(!r.ok)throw Error('Voice file unavailable');return r.arrayBuffer();}).then(b=>c.decodeAudioData(b)).catch(e=>{cache.delete(id);throw e;});cache.set(id,pending);}return {bank,buffer:await cache.get(id)};}
+ function stop(){serial++;for(const s of sources){s.onended=null;try{s.stop();}catch{}}sources=[];}
  function say(text,done=()=>{}){
-   stop();const ticket=serial;
-   if(!synth){done();return;}
-   const u=new SpeechSynthesisUtterance(String(text).replace(/\bjab\b/gi,I.lang==='en'?'Jab':'Yab'));
-   u.lang=locale();
-   u.voice=available.find(v=>v.voiceURI===$('voices').value)||null;
-   u.rate=Number($('rate').value)||0.95;
-   u.pitch=Number($('pitch').value)||1;
-   u.volume=1;
-   active=u;let ended=false;
-   const finish=()=>{if(ended||ticket!==serial)return;ended=true;active=null;done()};
-   u.onend=finish;u.onerror=finish;
-   try{synth.speak(u)}catch{finish();return;}
-   // Occasional mobile WebSpeech stalls shouldn't freeze workout progression.
-   setTimeout(()=>{if(ticket!==serial||ended)return;try{synth.cancel()}catch{}finish();},Math.max(9000,String(text).length*200));
+  stop();const ticket=serial;const rate=Math.max(.7,Math.min(1.3,Number($('rate').value)||1));
+  prepare().then(({bank,buffer})=>{if(ticket!==serial)return;const parts=text.split(/\.\s*/).map(normalise).filter(Boolean),clips=parts.map(p=>bank.phrases[p]);if(!clips.length||clips.some(c=>!c))throw Error('Missing voice phrase: '+parts.filter((p,i)=>!clips[i]).join(', '));
+   let at=ctx.currentTime;for(const [i,[start,duration]]of clips.entries()){const s=ctx.createBufferSource();s.buffer=buffer;s.playbackRate.value=rate;s.connect(output);const length=Math.max(.05,duration-.015);if(i===clips.length-1)s.onended=()=>{if(ticket===serial){sources=[];done();}};sources.push(s);s.start(at,start+.006,length);at+=length/rate;}
+  }).catch(e=>{if(ticket!==serial)return;console.warn('PRIMAL voice',e);$('audioNote').textContent=I.lang==='en'?'Voice could not load. Check your connection and try again.':'No se pudo cargar la voz. Revisa tu conexión y vuelve a intentar.';done();});
  }
- if(synth){try{synth.addEventListener('voiceschanged',update)}catch{}setTimeout(update,100);}
- document.addEventListener('tyson-language-change',()=>{stop();update();});
- window.PrimalVoice={say,stop,update,get available(){return available.length>0;}};
-
- update();
+ // Optional narrated profiles use exactly the same output as the prerecorded coach.
+ const profileCache=new Map();
+ function preloadClip(url){
+  const c=graph();
+  if(!profileCache.has(url))profileCache.set(url,fetch(url).then(r=>{if(!r.ok)throw Error('Profile audio unavailable');return r.arrayBuffer();}).then(b=>c.decodeAudioData(b)).catch(e=>{profileCache.delete(url);throw e;}));
+  return profileCache.get(url);
+ }
+ function playClip(url,done=()=>{}){
+  stop();const ticket=serial;const c=graph();
+  if(c.state!=='running')void c.resume().catch(()=>{});
+  preloadClip(url).then(buffer=>{
+   if(ticket!==serial)return;
+   const source=c.createBufferSource();source.buffer=buffer;source.connect(output);
+   source.onended=()=>{if(ticket===serial){sources=[];done();}};
+   sources.push(source);source.start();
+  }).catch(e=>{if(ticket!==serial)return;console.warn('PRIMAL profile',e);done();});
+ }
+ function attachRecorder(c,destination){graph();if(c!==ctx)throw Error('Shared context required');detachRecorder();mixer=destination;output.connect(mixer);}
+ function detachRecorder(){if(mixer&&output){try{output.disconnect(mixer);}catch{}}mixer=null;}
+ function update(){const sel=$('voices');sel.replaceChildren(new Option(I.lang==='en'?'PRIMAL Natural · same voice in every mode':'PRIMAL Natural · misma voz en todos los modos','primal'));sel.disabled=true;$('pitch').disabled=true;$('audioNote').textContent=I.lang==='en'?'One natural PRIMAL voice for training and video. Speed is adjustable; tone is fixed.':'Una misma voz natural PRIMAL para entrenar y grabar. Puedes ajustar la velocidad; el tono es fijo.';}
+ document.addEventListener('tyson-language-change',()=>{stop();update();});window.PrimalVoice={say,stop,prepare,playClip,preloadClip,attachRecorder,detachRecorder,update,get available(){return true;}};update();
 })();

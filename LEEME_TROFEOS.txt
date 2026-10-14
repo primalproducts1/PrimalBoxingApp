@@ -1,0 +1,75 @@
+PRIMAL BOXING CLUB — TROFEOS Y FIDELIZACIÓN
+
+PUBLICAR EN TU GITHUB ACTUAL
+1. Descarga y descomprime PRIMAL_Boxing_Trofeos_GitHub.zip.
+2. Abre el repositorio primalproducts1/PrimalBoxingApp.
+3. En la raíz, usa Add file > Upload files. Arrastra el contenido descomprimido (no el ZIP ni una carpeta contenedora).
+4. Confirma que index.html queda en la raíz junto a app.js, loyalty.js, loyalty-core.js, loyalty.css, interface.js e interface.css. Conserva las carpetas audio y coach-audio.
+5. Guarda con Commit changes en la rama que ya publica GitHub Pages. No necesitas cambiar la configuración de Pages.
+6. Espera a que termine la publicación y recarga https://primalproducts1.github.io/PrimalBoxingApp/.
+7. Entra a Trofeos desde la barra inferior. Para comprobar el primer logro: Ajustar > 1 round de 60 segundos, preparación 3 segundos. Deja terminar automáticamente. No pulses Finalizar sesión.
+
+Si prefieres subir solo los cambios: index.html, app.js, loyalty.css, loyalty-core.js, loyalty.js, interface.css e interface.js. server.js solo agrega esos recursos a su lista de archivos para quien use npm start; GitHub Pages no necesita Node.
+
+QUÉ SE CONSERVA
+Se tomó la versión publicada como base y se comprobó que su index.html coincidía con el repositorio descargado. El código de cronómetro (core.js), configuración, combinaciones y voz se conserva. La grabación añade la opción de regresar al inicio sin reabrir automáticamente su resultado. La música ahora sigue el estado del round. app.js incorpora una notificación al guardar la sesión, separada del funcionamiento del entrenamiento. No se integra ni cambia ElevenLabs en esta entrega.
+
+PLAN DE FIDELIZACIÓN
+Activación: primera medalla tras una sesión válida.
+Hábito: objetivo de 3 días distintos por semana, de lunes a domingo.
+Progresión: medallas de 5, 10, 25, 50 y 100 sesiones; 25, 100 y 300 rounds; 60 y 300 minutos activos.
+Constancia: medallas por completar el reto semanal durante 2 y 4 semanas consecutivas.
+Exploración: completar sesiones con 3 enfoques distintos.
+Reconocimiento: notificación al ganar medallas, vitrina y fecha de obtención. Son reconocimientos simbólicos; no prometen premios comerciales.
+No hay pérdida de puntos o medallas por descansar.
+
+REGLAS
+Solo cuenta una sesión que finaliza automáticamente todos sus rounds de cualquier duración configurada. Las sesiones interrumpidas se conservan en Actividad pero no suman al club. Los segundos excluyen preparación, pausas y descansos, según el temporizador existente. La app mide uso del temporizador, no detecta golpes ni certifica ejercicio físico.
+Se usa el día local de inicio de cada sesión. Cambiar de zona horaria no reclasifica los días ya almacenados.
+XP: primera sesión válida del día 100; segunda 25; tercera 25. Máximo 150 XP al día. Las sesiones adicionales sí suman al resto de hitos.
+Niveles: Novato 0 XP, Contendiente 500, Luchador 1.500, Campeón 3.500 y Leyenda 7.500.
+Cada medalla muestra regla, avance y fecha al ganarla. Español e inglés.
+
+ALMACENAMIENTO
+El registro independiente usa localStorage, clave primal-club-v1, sin el límite de 30 sesiones del historial anterior. Se importan las sesiones válidas que aún existen en tyson-history. No se pueden recuperar las que ya habían desaparecido. El enfoque no estaba guardado anteriormente, por eso ese logro empieza con esta versión.
+Borrar Actividad NO borra el registro de trofeos. Borrar los datos del navegador, navegar en privado o cambiar de dominio/dispositivo puede perder o separar el progreso. No hay cuentas ni sincronización en servidor. Es posible modificar datos locales manualmente: este sistema no es apto para premios monetarios ni competiciones verificadas.
+En Trofeos > Guardar respaldo puedes exportar un JSON. Recuperar progreso combina respaldos sin duplicar sesiones. Guarda respaldos periódicos y antes de cambiar de navegador. La vista de ChatGPT y GitHub tienen almacenamiento independiente; puedes trasladarlo con el JSON.
+
+VERIFICACIÓN
+Incluye pruebas de regresión originales y pruebas de elegibilidad, duplicados, XP, semanas, persistencia y hitos. Ejecutar npm test si tienes Node instalado. No se requieren dependencias para publicar.
+La cámara, voz y reproducción en Safari/iPhone requieren comprobación en el dispositivo real y sus permisos. No se ha realizado una prueba visual automatizada de navegador en este entorno.
+
+ACTUALIZACIÓN DE DISEÑO Y NAVEGACIÓN
+Menú flotante disponible durante el entrenamiento, grabación y dentro de todos los paneles. Se mantienen los mismos controles al cambiar de panel. Al consultar otra sección se pausa el temporizador; al cerrar el panel se puede continuar. Inicio regresa a la portada sin bloquearse en confirmaciones del navegador. Durante la cámara, el control Pausar/Continuar sesión permite retomar sin finalizar el video. Consultar paneles no detiene la grabación. Volver al inicio sí la finaliza, conservando el video en Grabar.
+Se retiró de la vista el botón de pantalla completa superior derecho. El inicio tiene un botón principal para entrenar, configuración de sesión más sobria y tarjeta de grabación con icono de cámara y explicación.
+Las reglas de trofeos y el almacenamiento no cambian.
+
+MÚSICA POR ROUND Y TROFEOS DESTACADOS
+La música empieza automáticamente en el estado de trabajo del round; se detiene en preparación, descanso, pausa y final. Al continuar vuelve a sonar. Puedes desactivarla manualmente. La pista de música del video sigue las mismas pausas. Si Safari bloquea la reproducción aparece Reintentar música. Trofeos se destaca con un borde amarillo y un acento propio en el menú.
+
+CORRECCIÓN DE INICIO Y TROFEOS + COMPARTIR
+Inicio, tanto en la barra como en la cabecera y la cámara, regresa a la portada. Si hay una sesión activa la guarda como parcial; la sesión parcial se guarda una sola vez. El video finalizado sigue disponible en Grabar, incluso si termina de procesarse después de volver al inicio.
+Toda sesión que termina todos sus rounds automáticamente cuenta para medallas y XP, incluso una de 10 segundos. Se retira el requisito anterior de 60 segundos. Al abrir esta actualización, también se recuperan las sesiones completas cortas que aún estén en el historial del mismo navegador. Las sesiones ya eliminadas no se pueden recuperar.
+El tiempo de una sesión completa usa los rounds y la duración programados para evitar pérdidas por redondeo del temporizador. Pausas, preparación y descansos no suman minutos.
+Cada medalla ganada ofrece Compartir trofeo y Guardar imagen PNG. Compartir usa las opciones del dispositivo y requiere una acción del usuario; nunca publica automáticamente. Si no se admite compartir archivos, comparte texto y enlace; si no existe la función Compartir, descarga la imagen.
+
+CORRECCIÓN DE VOZ, SONIDO Y REGRESO AL INICIO
+Inicio vuelve directamente y conserva el video finalizado en Grabar. También cancela la preparación pendiente de la cámara para que no se abra después de volver al inicio.
+Se retiraron los 650 ms adicionales tras el anuncio del round y el anuncio extra al reanudar. El siguiente combo empieza al terminar la voz más el tiempo de ejecución configurado (comprobado por el temporizador de la app cada 100 ms). La voz nativa depende de la latencia del dispositivo; no se garantiza precisión de tiempo real del navegador.
+Grabando: una sola señal de voz PRIMAL se envía a los altavoces y al video. Usa la velocidad configurada y el final real del clip para calcular la pausa. No se superpone la voz nativa. El tono y la selección de voz del dispositivo solo se aplican fuera de la grabación, indicado en la interfaz.
+La música usa un único reproductor conectado al altavoz y al mezclador del video, en un contexto de audio reutilizable. Se detiene fuera del round. El botón Activar audio intenta recuperar el audio si el sistema lo interrumpe.
+Comprobaciones de código: rutas de audio a altavoz y video; velocidad 1,3; final de voz y pausa de 3 s; repetición de grabaciones; cancelación de cámara pendiente; medallas e Inicio. La reproducción y grabación real en Safari/iPhone sigue necesitando validación en el dispositivo.
+
+MÚSICA DESDE PREPARACIÓN
+Al pulsar Empezar entrenamiento, la música suena desde la cuenta de preparación y continúa en los rounds, también grabando video. Se detiene en pausa, descanso y final. Si el usuario la desactiva manualmente, se respeta esa elección.
+
+TIEMPO PARA EJECUTAR MEJORADO
+La pausa usa un temporizador específico desde el final de la voz, con el reloj principal como respaldo. La pantalla de entrenamiento muestra la cuenta regresiva y permite ajustar de 1 a 12 s en el momento. Los cambios se guardan y se aplican al ciclo activo. Pausar conserva el tiempo de ejecución pendiente; si la voz se interrumpe, al reanudar se repite ese combo antes de comenzar la pausa completa. No se añaden combos duplicados al contador por repetir una indicación interrumpida. El navegador y la voz del dispositivo pueden introducir latencia; no es un sistema de tiempo real.
+
+MISMA VOZ EN TODOS LOS MODOS
+La voz PRIMAL común sustituye la voz del dispositivo. Entrenamiento sin cámara, escucha durante la grabación y pista del video comparten los mismos clips, volumen y velocidad. El tono es fijo. La velocidad y el tiempo de ejecución siguen siendo configurables. La primera reproducción descarga el banco de voz; se reutiliza en sesiones y grabaciones posteriores.
+
+VOZ NATURAL Y ENFOQUE INICIAL
+Se sustituyen todos los bancos robotizados por grabaciones neuronales: Gonzalo en español colombiano y Guy en inglés. Los mismos clips naturales se usan en entrenamiento sin cámara, grabación y video guardado. No se utiliza como respaldo el audio robotizado anterior.
+Esta voz no es necesariamente la misma voz instalada anteriormente en el teléfono: es una voz común, grabable y consistente entre dispositivos.
+El enfoque predeterminado es Técnica y precisión. La primera apertura de esta actualización aplica ese enfoque también a configuraciones anteriores. Después se conserva la elección que haga el usuario.

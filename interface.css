@@ -1,0 +1,47 @@
+/* PRIMAL refinement: quiet surfaces, clear hierarchy, persistent navigation. */
+#fullscreen{display:none!important}
+main{display:flex;flex-direction:column}
+.welcome{order:0}.session-chip{order:1}.ring{order:2}.transport{order:3}.session-footnote{order:4}.record-tools{order:5}.pc-teaser{order:6}.primal-music-dock{order:7}
+.session-chip{margin-top:22px;padding:15px 0;background:none;border:0;border-top:1px solid #303136;border-bottom:1px solid #303136;border-radius:0;gap:12px}
+.chip-icon{background:none;width:26px;height:32px;color:#a8a8ad;border-radius:0}
+.session-chip b{font-size:14px;font-weight:650}.session-chip small{font-size:12px;margin-top:3px;color:#97979c}.chip-edit{color:#dedee1;font-weight:600;font-size:11px;letter-spacing:0;text-transform:none;border-bottom:1px solid #68686d;padding-bottom:2px}
+.transport{margin-top:18px}.transport .start{min-height:57px;border-radius:9px;box-shadow:none;justify-content:space-between;padding:0 20px;font-size:12px;font-weight:750;letter-spacing:.65px;background:#e74035}.transport .start:active{box-shadow:none;transform:scale(.99)}
+.transport .secondary{background:transparent;color:#b6b6bc;border:0;font-size:12px;text-decoration:underline;text-underline-offset:4px}
+.session-footnote{margin:11px 0 17px;font-size:9px;letter-spacing:.7px;font-weight:500;color:#86868e}
+.record-tools{margin:0 0 8px}
+.record-cta{justify-content:flex-start;gap:14px;padding:17px 15px;border-radius:10px;border:1px solid #3b3c40;background:#18191c;text-align:left;letter-spacing:0;min-height:77px}
+.record-cta .record-action-icon{display:grid;place-items:center;flex-shrink:0;width:39px;height:39px;border:1px solid #653731;border-radius:10px;color:#f27b71;background:#35211f;margin:0}
+.record-action-icon svg{width:22px;height:22px}
+.record-cta .record-action-copy{flex:1;min-width:0;margin:0;color:inherit}
+.record-action-copy b{display:block;font-size:13px;font-weight:650;line-height:1.3}
+.record-action-copy small{display:block;font-size:11px;line-height:1.5;color:#9e9fa6;font-weight:400;margin-top:5px}
+.record-cta .record-action-arrow{flex:0 0 auto;margin:0;color:#97979f;font-size:21px;font-weight:400}
+.pc-teaser{order:6;background:transparent;border:0;border-bottom:1px solid #303136;border-radius:0;margin:0 0 18px;padding:15px 2px;gap:12px}
+.pc-teaser>.pc-medal{width:32px!important;height:37px!important;filter:grayscale(.5);opacity:.8}
+.pc-teaser small{font-size:8px;letter-spacing:1.2px;color:#a9a6a1}.pc-teaser b{font-size:12px;font-weight:600;margin:3px 0}.pc-teaser em{font-size:10px;color:#8d8d96}.pc-teaser>strong{font-size:20px;color:#95949a;font-weight:400}
+body .tab-bar{display:flex!important;position:fixed;z-index:5000;bottom:calc(10px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(calc(100% - 28px),474px);padding:7px 7px;gap:1px;border:1px solid #424247;border-radius:19px;background:#1c1d20fa;box-shadow:0 8px 28px #0006;backdrop-filter:blur(18px)}
+body .tab-bar button{flex:1;min-width:0;min-height:49px;border-radius:12px;font-size:9px;font-weight:500;gap:5px;color:#a3a3ad;padding:4px 2px}
+body .tab-bar button.selected,body .tab-bar #primalClubTab.selected{color:#ff8c80;background:#ffffff0a}
+body .tab-bar svg{width:20px;height:20px;stroke-width:1.6}
+body .app-shell{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+body .sheet{margin:0 auto;width:min(100%,600px);height:100dvh;max-height:100dvh;border-radius:0;padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+body .sheet .sheet-body{padding-bottom:25px}
+body .pc-dialog{height:100dvh;max-height:100dvh;border-radius:0}
+.pc-content{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+.pc-toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+.record-stage{padding-bottom:calc(95px + env(safe-area-inset-bottom))}
+.record-canvas{object-fit:contain}
+.record-stage-controls{bottom:calc(95px + env(safe-area-inset-bottom));max-width:450px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;left:12px;right:12px}
+.record-stage-stop,.record-stage-sound{min-width:0;min-height:42px;padding:8px 5px;font-size:10px;border-radius:8px;max-width:none;letter-spacing:0;font-weight:600}
+#recordStageStop{grid-column:span 2}
+@media(min-width:600px){body .sheet{border-radius:18px 18px 0 0}body .pc-dialog{border-radius:18px 18px 0 0}}
+@media(max-width:360px){.record-cta{padding:14px 11px;gap:10px}.record-action-copy b{font-size:12px}.record-action-copy small{font-size:10px}.tab-bar{width:calc(100% - 20px)}}
+/* Club signature: a warm yellow keyline, compact trophy and visible progress. */
+.pc-teaser{position:relative;padding:19px 17px;margin:9px 0 23px;border:1px solid #dbc249;border-left:4px solid #f0d34e;border-radius:10px;background:#1b1b16;gap:15px;box-shadow:none}
+.pc-teaser>.pc-medal{width:46px!important;height:52px!important;filter:none;opacity:1}
+.pc-teaser .pc-medal-base{fill:#b79831;stroke:#ffe779}.pc-teaser .pc-medal-ring{fill:#292617;stroke:#ebd163}.pc-teaser .pc-medal-mark{stroke:#ffe887}.pc-teaser .pc-ribbon{fill:#544728;stroke:#a69148}
+.pc-teaser small{font-size:9px;font-weight:750;letter-spacing:1.8px;color:#eed85f}.pc-teaser b{font-size:14px;font-weight:650;line-height:1.3;margin:5px 0}.pc-teaser em{font-size:11px;color:#b9b6a5}.pc-teaser>strong{color:#f0d34e;font-size:25px}
+body .tab-bar #primalClubTab{color:#edcf55;position:relative}body .tab-bar #primalClubTab svg{stroke:#edcf55;stroke-width:1.8}body .tab-bar #primalClubTab.selected{color:#ffe579;background:#e4c64314;box-shadow:inset 0 0 0 1px #bda13d70}
+.pc-hero{border-color:#a9923a;background:linear-gradient(120deg,#2b281a,#161719 75%)}.pc-hero .pc-kicker,.pc-xp b{color:#eed45c}.pc-meter span{background:#e1c451}.pc-badge.is-earned{border-color:#a08d41}.pc-header>.pc-kicker{color:#e9d05b}
+.pc-share-actions{display:grid;gap:6px;margin-top:15px}.pc-share-actions button{border:1px solid #a59143;background:#e0c44c;color:#181811;border-radius:7px;padding:10px 7px;min-height:38px;font-size:10px;font-weight:700}.pc-share-actions button+button{background:transparent;color:#c9c1a2;border-color:#544d35;font-weight:500}.pc-toast>span:last-child{max-width:82px;font-size:11px;line-height:1.4}#pcShareStatus{font-size:12px;color:#e4ce75;line-height:1.5}#pcShareStatus:empty{display:none}
+.execution-control{margin:16px 0;padding:14px 0;border-top:1px solid #33343a;border-bottom:1px solid #33343a}.execution-control label{display:flex;justify-content:space-between;color:#d0d0d5;font-size:12px}.execution-control strong{color:#f38176}.execution-control input{margin:15px 0;min-height:24px}.execution-control p{font-size:12px;color:#edd679;min-height:18px;margin:4px 0}.execution-control small{font-size:10px;color:#91919b}

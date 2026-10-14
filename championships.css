@@ -1,0 +1,197 @@
+/* Additive stylesheet. The existing PRIMAL styles remain untouched. */
+.tab-bar:has(#championshipsTab){padding-inline:7px;gap:0}
+.tab-bar #championshipsTab{min-width:0;flex:1;max-width:124px;padding:1px 0;font-size:9px;letter-spacing:-.12px}
+.tab-bar:has(#championshipsTab) button{min-width:0;flex:1;max-width:124px;padding:1px 0}
+#championshipsTab svg{stroke-width:1.8}
+.primal-champ-sheet{max-height:96dvh;background:#111214}
+.primal-champ-sheet .sheet-header{background:#111214f8}
+.primal-champ-sheet .sheet-body{padding:0 15px calc(28px + env(safe-area-inset-bottom))}
+.chm-body{font-size:13px;color:#f8f6f1}
+.chm-kicker{font-size:9px;letter-spacing:2.2px;font-weight:800;color:#ee6457;margin:20px 0 12px}
+.chm-hero{border:1px solid #414045;position:relative;overflow:hidden;border-radius:18px;background:radial-gradient(circle at 85% 26%,#b53a302a,transparent 48%),linear-gradient(135deg,#252025,#0a0b0d 72%);padding:24px 19px 26px;isolation:isolate}
+.chm-hero::after{content:'✦';position:absolute;right:18px;top:6px;color:#ef4c40;opacity:.14;font-size:148px;font-family:Georgia,serif;transform:rotate(18deg);z-index:-1}
+.chm-hero p{font-size:12px;letter-spacing:2.6px;margin:0 0 2px;font-weight:850}
+.chm-hero h3{font:900 clamp(47px,13vw,69px)/.95 Impact,'Arial Narrow',sans-serif;margin:0 0 15px;letter-spacing:-.6px}
+.chm-hero h3 span{color:#ef4137}
+.chm-hero small{font-size:10px;color:#b2b2b5;letter-spacing:.5px}
+.chm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:12px;border:1px solid #3b3a40;border-radius:13px;overflow:hidden;background:#1b1c1f}
+.chm-stats>div{text-align:center;padding:14px 4px;border-right:1px solid #39393e}
+.chm-stats>div:last-child{border:0}
+.chm-stats strong{display:block;font:900 27px/1 Impact,'Arial Narrow',sans-serif}
+.chm-stats strong em{font-style:normal;font:500 12px/1 sans-serif;color:#aaa}
+.chm-stats span{display:block;margin-top:5px;font-size:9px;letter-spacing:1px;color:#a8a7a7;font-weight:700}
+.chm-smallnote{font-size:11px;line-height:1.55;color:#a1a0a2;margin:13px 0 14px}
+.chm-campaign{margin-top:15px;display:flex;flex-direction:column;gap:13px}
+.chm-chapter{border:1px solid #34353b;background:#191a1e;border-radius:15px;overflow:hidden}
+.chm-chapter-head{padding:14px;display:flex;align-items:center;gap:11px;border-bottom:1px solid #34343a}
+.chm-medallion{width:45px;height:45px;border:1px solid color-mix(in srgb,var(--belt),#333 52%);border-radius:11px;background:color-mix(in srgb,var(--belt),#16171b 87%);display:grid;place-items:center;flex:none;color:var(--belt)}
+.chm-medallion svg{height:23px;width:23px;fill:none;stroke-width:1.5}
+.chm-chapter-head div:nth-child(2){min-width:0;flex:1}
+.chm-chapter-head span{display:block;font-size:9px;letter-spacing:1.3px;font-weight:800;color:#a1a1a4}
+.chm-chapter-head h4{font:900 25px/.95 Impact,'Arial Narrow',sans-serif;margin:3px 0;color:var(--belt);letter-spacing:.6px}
+.chm-chapter-head p{font-size:10px;color:#c2c0c2;margin:3px 0 0}
+.chm-belt-state{white-space:nowrap;font-size:9px;letter-spacing:.2px;font-weight:850;color:#a2a2a7}
+.chm-chapter-won .chm-belt-state{color:#b2dcad}
+.chm-roster{padding:4px 10px 10px;display:grid;gap:3px}
+.chm-fighter{display:flex;gap:10px;align-items:center;width:100%;color:#f2f1f0;padding:11px 9px;border:1px solid transparent;border-radius:10px;background:transparent;text-align:left;min-height:55px}
+.chm-fighter:disabled{opacity:.50;cursor:not-allowed}
+.chm-fighter:not(:disabled):hover,.chm-fighter.chm-current{border-color:#734842;background:#2b2526}
+.chm-fighter-number{font:800 12px Impact,'Arial Narrow',sans-serif;color:#9c9da0;width:21px;flex:none}
+.chm-fighter-main{flex:1;min-width:0}
+.chm-fighter-main b{display:block;font-size:12px;font-weight:850;line-height:1.35}
+.chm-fighter-main small{display:block;font-size:10px;color:#a6a4aa;margin-top:3px}
+.chm-fighter-end{font-size:9px;color:#ed746a;font-weight:850;letter-spacing:.5px;white-space:nowrap}
+.chm-stars{font-size:15px;color:#e8ba5f;letter-spacing:0}
+.chm-detail{border:1px solid #585054;background:#252024;border-radius:14px;padding:17px 15px;margin-top:17px}
+.chm-detail-top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:9px;letter-spacing:1px;color:#bbb1b4;font-weight:850}
+.chm-detail-top b{color:#f17a6d}
+.chm-detail h3{font:900 clamp(28px,8vw,38px)/1.03 Impact,'Arial Narrow',sans-serif;margin:10px 0 3px}
+.chm-detail>p{font-size:11px;color:#b9b4b6;margin:5px 0 14px}
+.chm-difficulty{height:5px;border-radius:9px;background:#4b3c40;overflow:hidden;margin:13px 0 17px}
+.chm-difficulty i{display:block;background:#ed4439;height:100%;border-radius:9px}
+.chm-control-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.chm-control-grid label{display:block;color:#cac5c6;font-size:10px;font-weight:800}
+.chm-control-grid select{width:100%;margin-top:6px;background:#131316;color:#f7f7f5;border:1px solid #5c5558;border-radius:9px;font-size:11px;padding:11px 6px;min-height:40px}
+.chm-record{display:flex;align-items:center;gap:10px;margin-top:15px;font-size:12px;font-weight:700;color:#e1dedf}
+.chm-record input{accent-color:#ea453d;height:17px;width:17px}
+.chm-detail .chm-start{margin-top:12px;font-size:12px;min-height:52px}
+.chm-detail .chm-result-note{margin-top:10px;text-align:center}
+.chm-disclaimer{padding:12px 4px 30px;font-size:10px;line-height:1.6;color:#86858a}
+#pcFightBanner{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #723c3e;background:#21191c;border-radius:9px;padding:9px 10px;margin:0 0 13px;font-size:10px;color:#e7dedf}
+#pcFightBanner b{color:#ed7568;font-size:9px;letter-spacing:.3px;text-align:right}
+#pcFightBanner[hidden]{display:none}
+#pcResult{border:1px solid #704749;background:linear-gradient(130deg,#2d2023,#151517);margin:15px 0;border-radius:15px;padding:19px;text-align:center;display:flex;flex-direction:column;gap:6px}
+#pcResult[hidden]{display:none}
+#pcResult>p{color:#ed756b;letter-spacing:1.5px;font-size:10px;font-weight:900;margin:0}
+#pcResult h3{font:900 32px Impact,'Arial Narrow',sans-serif;margin:0}
+#pcResult strong{font-size:27px;color:#e9c07d}
+#pcResult small{font-size:12px;color:#ddd1cf}
+#pcResult button{border:1px solid #b8524a;background:#391e21;border-radius:10px;color:#f3e9e6;font-size:11px;font-weight:850;min-height:44px;margin-top:12px}
+@media(max-width:360px){.chm-control-grid{grid-template-columns:1fr}.tab-bar #championshipsTab span{font-size:9px}.chm-fighter-main b{font-size:11px}.chm-chapter-head{gap:7px;padding:12px}}
+
+body.chm-active .sequence:has(.move:nth-child(6)){gap:2px;min-height:205px}
+body.chm-active .sequence:has(.move:nth-child(6)) .move span{font-size:clamp(16px,4.2vw,23px)}
+body.chm-active .sequence:has(.move:nth-child(6)) .move b{font-size:9px}
+
+/* Championships v2: scoped fighter 3D cards and original belt pictogram. */
+#championshipsTab svg.chm-belt-icon{width:28px;height:24px;fill:none;stroke:currentColor;stroke-width:0;flex-shrink:0}
+.chm-medallion svg.chm-belt-icon{width:30px;height:20px;stroke:currentColor;stroke-width:0}
+.chm-fighter{min-height:67px;padding:7px 9px}
+.chm-fighter-thumb{height:52px;width:48px;background:radial-gradient(circle at 50% 60%,#6a272b6f,#17171b 75%);border:1px solid #514244;border-radius:9px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;flex:none}
+.chm-fighter-thumb img{width:114%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 3px 6px #0006)}
+.chm-fighter.chm-locked{opacity:.78;cursor:pointer}
+.chm-fighter.chm-locked:hover,.chm-fighter.chm-current{opacity:1}
+.chm-fighter-showcase{position:relative;margin:12px -14px 14px;border-radius:14px;overflow:hidden;min-height:248px;background:radial-gradient(ellipse at 48% 65%,#7c292850 0%,transparent 58%),linear-gradient(135deg,#282126,#101014 72%);border:1px solid #52373a;display:flex;align-items:flex-end}
+.chm-fighter-showcase::before{content:'PRIMAL';position:absolute;top:13px;left:12px;opacity:.08;color:white;font:900 66px Impact,Arial,sans-serif;letter-spacing:4px;transform:rotate(-8deg)}
+.chm-fighter-portrait{width:66%;max-width:270px;align-self:stretch;min-height:250px;display:flex;align-items:flex-end;position:relative;z-index:1}
+.chm-fighter-portrait img{display:block;width:115%;max-width:none;height:100%;max-height:272px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 4px 14px #000a)}
+.chm-fighter-heading{position:absolute;z-index:2;right:13px;bottom:15px;left:37%;text-align:right;text-shadow:0 2px 14px #050505ea}
+.chm-fighter-tag{display:inline-block;background:#c63d36;color:#fff;font-size:9px;font-weight:850;letter-spacing:.6px;border-radius:4px;padding:5px 7px}
+.chm-fighter-heading h3{font:900 clamp(30px,8.2vw,44px)/.95 Impact,'Arial Narrow',sans-serif;color:#f9f8f8;margin:10px 0 4px;overflow-wrap:anywhere}
+.chm-fighter-heading p{font-size:12px;color:#f2c9bd;font-weight:850;margin:0}
+.chm-record-card{padding:13px 15px;border:1px solid #564248;background:#171719;border-radius:12px;margin-bottom:16px}
+.chm-record-caption{font-size:10px;font-weight:850;letter-spacing:1.4px;color:#c5b8bb;display:flex;justify-content:space-between;gap:5px}
+.chm-record-caption small{font-size:9px;color:#989094}
+.chm-record-main{font:900 clamp(38px,12vw,59px)/1.25 Impact,'Arial Narrow',Arial,sans-serif;letter-spacing:1px;color:#fff;font-variant-numeric:tabular-nums;margin-top:3px}
+.chm-record-meta{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#a9a5a7}
+.chm-record-meta span:first-child{font-weight:850;color:#ed796a}
+.chm-life h4{font:900 22px Impact,'Arial Narrow',sans-serif;color:#f3f1ef;letter-spacing:.5px;margin:15px 0 8px}
+.chm-life p{color:#c7bdc0;font-size:12px;line-height:1.65;margin:0 0 10px}
+.chm-milestone{border-left:3px solid #d44c42;padding:10px 11px;background:#31272b;border-radius:0 7px 7px 0;display:flex;flex-direction:column;gap:4px;margin:13px 0}
+.chm-milestone b,.chm-combat-style b{font-size:9px;color:#f39484;letter-spacing:1px}
+.chm-milestone span{font-size:11px;line-height:1.5;color:#e4dedf}
+.chm-fact-source{font-size:10px;color:#ffc0b5;display:inline-block;margin-top:1px;text-decoration:underline;text-underline-offset:3px}
+.chm-life{margin-bottom:13px}
+@media(max-width:360px){.chm-fighter-portrait{width:70%}.chm-fighter-heading{left:32%;right:8px}.chm-fighter-thumb{width:40px}.chm-record-main{font-size:37px}.chm-fighter-heading h3{font-size:29px}}
+
+/* Native coach verification: scoped to Championships, no original UI changes. */
+.primal-champ-sheet .chm-audio-verify{margin:13px 0 8px;padding:13px;border:1px solid rgba(244,83,70,.34);border-radius:12px;background:linear-gradient(135deg,rgba(87,31,28,.33),rgba(14,15,17,.75))}
+.primal-champ-sheet .chm-audio-heading{display:flex;align-items:center;gap:10px}
+.primal-champ-sheet .chm-audio-heading>span:last-child{display:flex;flex-direction:column;gap:3px}
+.primal-champ-sheet .chm-audio-heading strong{font-size:11px;letter-spacing:.07em;color:#f3f0ee}
+.primal-champ-sheet .chm-audio-heading small{color:#aaa3a8;font-size:10px;line-height:1.5}
+.primal-champ-sheet .chm-audio-dot{background:#e9433a;width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 4px rgba(233,67,58,.14)}
+.primal-champ-sheet .chm-audio-actions{display:flex;gap:9px;margin-top:11px}
+.primal-champ-sheet .chm-audio-actions button{flex:1;border-radius:8px;border:1px solid rgba(232,81,69,.38);padding:11px 5px;min-height:43px;background:#342124;color:#fff;font-weight:750;font-size:11px;cursor:pointer}
+.primal-champ-sheet .chm-audio-actions .chm-audio-settings{background:#242327;border-color:#51494d;color:#ded9db}
+@media(max-width:340px){.primal-champ-sheet .chm-audio-actions{flex-direction:column}}
+
+/* Pre-fight walkout: scoped styles, no changes to original screens, trophies or player. */
+.primal-champ-sheet .chm-ante{padding:9px 1px 32px;text-align:center;color:#f7f5f4}
+.primal-champ-sheet .chm-ante-art{height:235px;display:flex;justify-content:center;align-items:flex-end;overflow:hidden;background:radial-gradient(ellipse at bottom,#802d2655,transparent 68%);border-radius:12px;margin-top:12px}
+.primal-champ-sheet .chm-ante-art img{height:100%;width:100%;object-fit:contain;object-position:center bottom}
+.primal-champ-sheet .chm-ante-step{color:#f1897f;font-weight:900;font-size:10px;letter-spacing:1.5px;margin:16px 0 5px}
+.primal-champ-sheet .chm-ante-name{font:900 clamp(28px,8vw,42px)/1.04 Impact,'Arial Narrow',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.3px}
+.primal-champ-sheet .chm-ante-record{color:#c6c0c6;font-size:12px;margin:9px 0 14px}
+.primal-champ-sheet .chm-ante-summary{color:#e7e3e5;line-height:1.58;font-size:14px;max-width:38rem;margin:13px auto;padding:0 7px}
+.primal-champ-sheet .chm-ante-audio,.primal-champ-sheet .chm-ante-music{background:#1d1c22;border:1px solid #433940;border-radius:12px;padding:13px 14px;margin:12px 0;text-align:left}
+.primal-champ-sheet .chm-ante-audio span,.primal-champ-sheet .chm-ante-music b{font-size:12px;font-weight:800;color:#f6f2f2}
+.primal-champ-sheet .chm-ante-audio p,.primal-champ-sheet .chm-ante-music p{color:#b8b1b7;font-size:11px;line-height:1.5;margin:5px 0}
+.primal-champ-sheet .chm-ante-audio button,.primal-champ-sheet .chm-ante-music button,.primal-champ-sheet .chm-ante-back{margin-top:7px;background:#29272e;border:1px solid #59515b;border-radius:7px;color:#f8f5f5;padding:10px 12px;font-weight:700;cursor:pointer;width:100%}
+.primal-champ-sheet .chm-ante-back{margin-top:12px}
+.primal-champ-sheet .chm-ante-disclaimer{font-size:10px;color:#99949b;line-height:1.5;margin:14px 0 5px}
+.primal-champ-sheet .chm-ante .chm-start{width:100%;margin-top:10px}
+
+/* Home-only Championships promo — original hero, trophies, controls untouched. */
+.chm-promo{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(135px,.85fr);gap:0;align-items:stretch;min-height:250px;overflow:hidden;border:1px solid #733a37;border-radius:17px;background:radial-gradient(ellipse at 82% 45%,#a32a263c,transparent 49%),linear-gradient(125deg,#160f14,#271619 65%,#100e12);box-shadow:0 12px 35px #0005;margin:18px 0 18px;color:white}
+.chm-promo:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,#ffffff05,transparent 30%)}
+.chm-promo-copy{z-index:2;padding:23px 0 23px 21px;min-width:0}
+.chm-promo-tag{background:#611f22;color:#ffad99;padding:5px 8px;font-size:9px;letter-spacing:1px;font-weight:900;border-radius:5px;display:inline-flex}
+.chm-promo-copy h2{font:900 clamp(31px,7vw,52px)/.91 Impact,'Arial Narrow',sans-serif;letter-spacing:-.3px;color:#fff;margin:12px 0 9px}
+.chm-promo-copy h2 em{display:block;font-style:normal;color:#f0443d}
+.chm-promo-copy p{font-size:12px;line-height:1.52;color:#dbd1d2;max-width:25rem;margin:0 0 13px}
+.chm-promo-stats{display:flex;flex-wrap:wrap;gap:10px;margin:13px 0}
+.chm-promo-stats b{font-size:17px;font-family:Impact,'Arial Narrow',sans-serif;color:#fff}.chm-promo-stats b small{display:block;font:800 8px system-ui,sans-serif;letter-spacing:.45px;color:#bdb3b7}
+.chm-promo-cta{background:#ee4238!important;border:0!important;color:#fff!important;border-radius:6px;padding:13px 11px;min-height:44px;font-size:11px;font-weight:900;box-shadow:0 8px 22px #d72d262e;max-width:310px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:9px}
+.chm-promo-visual{position:relative;align-self:stretch;min-width:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.chm-promo-halo{position:absolute;width:190px;height:190px;border-radius:50%;background:#ec493749;filter:blur(35px);bottom:7px;right:0}
+.chm-promo-visual img{position:absolute;bottom:-3px;right:-23px;width:145%;max-width:350px;height:101%;object-fit:contain;object-position:center bottom;filter:drop-shadow(-7px 9px 18px #000a)}
+.chm-promo-mark{z-index:1;position:absolute;right:10px;top:14px;font:800 8px system-ui,sans-serif;letter-spacing:1px;color:#ffd1c9;text-align:right}.chm-promo-mark b{display:block;font:900 22px Impact,Arial,sans-serif;color:#fff;letter-spacing:0}
+@media(max-width:390px){.chm-promo{grid-template-columns:1.2fr .8fr;min-height:255px}.chm-promo-copy{padding:17px 0 18px 14px}.chm-promo-copy h2{font-size:31px}.chm-promo-copy p{font-size:11px}.chm-promo-visual img{right:-36px;width:175%}.chm-promo-stats{gap:7px}.chm-promo-stats b{font-size:15px}.chm-promo-cta{font-size:10px;padding:10px 7px}.chm-promo-mark{display:none}}
+@media(min-width:700px){.chm-promo{min-height:290px}.chm-promo-copy{padding:28px}.chm-promo-visual img{right:0;width:115%;max-width:420px}.chm-promo-copy p{font-size:14px}}
+
+/* PRIMAL Championships · 1-tap combat UX. Scoped; original PRIMAL CSS is untouched. */
+.chm-detail .chm-ready-note{font-size:11px;color:#c8c0c2;margin:16px 0 8px;line-height:1.6}
+.chm-detail .chm-fight-now{min-height:58px;margin-top:9px;font-size:14px;letter-spacing:.04em;box-shadow:0 8px 25px #dd3f3455}
+.chm-promo-visual{overflow:visible;min-height:265px;isolation:isolate}
+.chm-promo{overflow:hidden;min-height:285px}
+.chm-promo-visual img{position:absolute;width:100%;max-width:100%;height:93%;max-height:none;bottom:3%;right:0;object-fit:contain;object-position:center bottom;transform:none;filter:drop-shadow(-8px 10px 15px #0009)}
+.chm-promo-mark{right:10px;top:10px}
+@media(max-width:390px){
+.chm-promo{min-height:286px;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr)}
+.chm-promo-visual{min-height:286px}
+.chm-promo-visual img{right:0;width:100%;height:86%;bottom:8%;object-fit:contain}
+.chm-promo-copy{padding:18px 0 16px 15px}
+}
+@media(min-width:700px){.chm-promo{min-height:325px}.chm-promo-visual img{height:96%;width:95%;right:2%;bottom:2%}}
+#pcFightBanner.chm-warmup-identity{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;padding:9px 11px 10px;align-items:center;background:radial-gradient(circle at 15% 60%,#8b302933,#241b1e 75%);border:1px solid #873f39;border-radius:13px;margin-bottom:14px;min-height:135px}
+#pcFightBanner.chm-warmup-identity .chm-warmup-portrait{display:block;width:88px;height:116px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 8px 10px #0008)}
+#pcFightBanner.chm-warmup-identity .chm-warmup-copy{min-width:0}
+#pcFightBanner.chm-warmup-identity .chm-warmup-copy span{display:block;font-size:9px;color:#f09086;font-weight:900;letter-spacing:.6px}
+#pcFightBanner.chm-warmup-identity .chm-warmup-copy strong{display:block;font:900 clamp(23px,6vw,33px)/1.04 Impact,'Arial Narrow',sans-serif;color:white;margin:5px 0}
+#pcFightBanner.chm-warmup-identity .chm-warmup-copy p{font-size:11px;line-height:1.42;color:#e2d8d9;margin:6px 0}
+#pcFightBanner.chm-warmup-identity .chm-warmup-copy small{display:block;font-size:9px;color:#efa79a;margin-top:5px}
+#pcFightBanner[hidden]{display:none!important}
+
+/* FIX 4 · Banner character must ALWAYS be visible and entirely contained. */
+#primalChampionshipsPromo{isolation:isolate;overflow:hidden;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);min-height:340px}
+#primalChampionshipsPromo .chm-promo-visual{position:relative;overflow:visible!important;z-index:2;min-width:0;min-height:310px;display:flex;align-items:end;justify-content:center}
+#primalChampionshipsPromo .chm-promo-visual img{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:5!important;inset:auto!important;width:100%!important;max-width:360px!important;height:auto!important;max-height:300px!important;object-fit:contain!important;object-position:center bottom!important;transform:none!important;margin:0 auto 0!important;filter:drop-shadow(0 13px 17px #0009)}
+#primalChampionshipsPromo .chm-promo-halo{z-index:0}
+#primalChampionshipsPromo .chm-promo-mark{z-index:6;top:5px}
+@media(max-width:600px){
+ #primalChampionshipsPromo{display:flex!important;flex-direction:column;min-height:0!important;gap:0!important}
+ #primalChampionshipsPromo .chm-promo-copy{padding:23px 19px 9px!important;z-index:3!important}
+ #primalChampionshipsPromo .chm-promo-visual{flex:0 0 auto;min-height:275px!important;height:275px!important;width:100%!important}
+ #primalChampionshipsPromo .chm-promo-visual img{width:74%!important;max-width:320px!important;max-height:270px!important;height:auto!important}
+ #primalChampionshipsPromo .chm-promo-mark{right:17px;top:14px;display:block!important}
+}
+
+/* Final editorial spacing: text never intersects the boxer on narrow web app shells. */
+#primalChampionshipsPromo .chm-promo-copy h2{font-size:clamp(30px,3.5vw,39px)!important;max-width:100%!important}
+#primalChampionshipsPromo .chm-promo-visual img{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 86%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 86%,transparent 100%)}
+/* The original app shell stays narrow on desktop too: use its actual width. */
+#primalChampionshipsPromo{display:flex!important;flex-direction:column;min-height:0!important}
+#primalChampionshipsPromo .chm-promo-copy{padding:23px 19px 9px!important}
+#primalChampionshipsPromo .chm-promo-visual{min-height:275px!important;height:275px!important;width:100%!important}
+#primalChampionshipsPromo .chm-promo-visual img{width:74%!important;max-width:320px!important;max-height:270px!important;height:auto!important;-webkit-mask-image:none;mask-image:none}

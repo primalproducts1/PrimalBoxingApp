@@ -171,7 +171,7 @@
       }
     });
     document.querySelector('.welcome h1').setAttribute('aria-label',lang==='en'?'Step into the ring':'Entra en el ring');
-    document.querySelector('meta[name=description]').content=lang==='en'?'PRIMAL Boxing Club: boxing drills with spoken coaching. Music during rest periods.':'PRIMAL Boxing Club: tu entrenador de boxeo por voz. Música al inicio y en los descansos.';
+    document.querySelector('meta[name=description]').content=lang==='en'?'PRIMAL Boxing Club: boxing drills with spoken coaching. Music during rounds.':'PRIMAL Boxing Club: tu entrenador de boxeo por voz. Música durante los rounds.';
     document.title=lang==='en'?'PRIMAL Boxing Club · Your corner':'PRIMAL Boxing Club · Tu esquina';
     document.documentElement.lang=lang==='en'?'en':'es';
     const s=document.getElementById('language');if(s)s.value=lang;
