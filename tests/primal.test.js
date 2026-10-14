@@ -9,4 +9,4 @@ test('música local MP3 sin YouTube ni reproductor flotante',()=>{
  assert.match(m,/createMediaElementSource/);
  assert.ok(fs.statSync(path.join(root,'audio','primal-background.mp3')).size>1000000);
 });
-test('voz nativa y audio de exportación como pistas independientes',()=>{const c=read('coach.js'),a=read('app.js'),r=read('recorder.js');assert.match(c,/SpeechSynthesisUtterance/);assert.match(a,/PrimalVoice\.say\(text,end\)/);assert.match(r,/speakerGain\.gain\.value=0/);assert.match(r,/PrimalVoiceBank/);});
+test('una sola voz PRIMAL audible y grabada',()=>{const c=read('coach.js'),r=read('recorder.js');assert.match(c,/output.connect\(ctx.destination\)/);assert.match(c,/output.connect\(mixer\)/);assert.match(r,/PrimalVoice.say\(text,done\)/);assert.match(r,/PrimalVoice.attachRecorder\(ctx,mixer\)/);assert.doesNotMatch(c,/SpeechSynthesisUtterance/);});

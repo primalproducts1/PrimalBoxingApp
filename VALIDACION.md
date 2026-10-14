@@ -2,7 +2,7 @@
 
 ## Resultados observados
 
-- 22 pruebas Node aprobadas, cero fallos.
+- 24 pruebas Node aprobadas, cero fallos.
 - Chromium headless 153, interfaz de 390 × 844 y 1440 × 1000.
 - Música real: MP3 de 59:57.98; reproducción con readyState 4,
   AudioContext running, muted false y currentTime avanzando.
@@ -59,3 +59,18 @@ Consulta: 14 de octubre de 2026. Los activos del parche se contrastaron con:
 
 Cada perfil conserva su enlace de trayectoria. Los datos son una instantánea,
 no una conexión en vivo a un proveedor de resultados.
+
+## Revisión del HTML aportado
+
+El HTML PRIMAL_CAMPEONATOS_4_CORRECCIONES_VISTA_PREVIA(1).html contiene
+18 retratos idénticos a los del paquete, pero carga doce scripts y tres
+hojas de estilo externos. También depende del MP3 y del banco de voz remotos.
+La revisión completa conserva todos esos recursos localmente.
+
+Se añadió precarga de la presentación seleccionada, límite de carga de
+12 segundos y retención de preparación mientras se reproduce la narración.
+Dos pruebas adicionales comprueban que la presentación espera a onended
+y que al pausar durante la descarga no puede reproducirse un audio tardío.
+No se repitió QA de navegador para esta revisión alojada: la herramienta
+control-browser no está disponible en este entorno. Las comprobaciones
+de Chromium descritas arriba corresponden a la base de la entrega anterior.

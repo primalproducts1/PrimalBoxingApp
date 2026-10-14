@@ -94,18 +94,28 @@
     'Mike Tyson. The youngest heavyweight champion in history.',
     'Muhammad Ali. The Greatest, an icon of speed and footwork.'
   ];
-  let pendingCoachIntro=null;
+  let pendingCoachIntro=null,preparationHold=null;
+  function releasePreparation(){if(preparationHold!==null){clearInterval(preparationHold);preparationHold=null;}}
+  const stopCoach=window.PrimalVoice.stop.bind(window.PrimalVoice);
+  window.PrimalVoice.stop=()=>{releasePreparation();stopCoach();};
   const introPath=f=>INTRO_BASE+String(f.id).padStart(2,'0')+'-'+lang()+'.mp3';
-  function cancelIntro(){pendingCoachIntro=null;}
+  function cancelIntro(){pendingCoachIntro=null;releasePreparation();}
   const nativeVoice=window.PrimalVoice.say.bind(window.PrimalVoice);
   window.PrimalVoice.say=(message,done)=>{
     const intro=pendingCoachIntro;
     if(intro&&clock.state==='prepare'&&active&&intro.id===active.id){
       pendingCoachIntro=null;
       window.PrimalVoice.playClip(introPath(fighters[intro.id-1]),()=>{
+        releasePreparation();
         if(active&&clock.state==='prepare')nativeVoice(message,done);
         else if(typeof done==='function')done();
       });
+      const started=performance.now();
+      // Keep preparation open until the actual narration ends, including slow loads.
+      preparationHold=setInterval(()=>{
+        if(!active||clock.state!=='prepare'||performance.now()-started>20000){releasePreparation();return;}
+        clock.end=Math.max(clock.end,performance.now()+6000);
+      },100);
       return;
     }
     nativeVoice(message,done);
@@ -206,6 +216,7 @@
       <p class="chm-ready-note">12 rounds · ${tr('Música y entrenador PRIMAL originales','Original PRIMAL music and coach')} · ${tr('El rival será presentado durante la preparación.','Opponent intro appears during warmup.')}</p>
       <button class="start chm-start chm-fight-now" id="pcStart" type="button" ${accessible?'':'disabled'}>${accessible?(prev?.complete?tr('PELEAR DE NUEVO','FIGHT AGAIN'):tr('PELEAR AHORA','FIGHT NOW')):tr('RIVAL BLOQUEADO','OPPONENT LOCKED')} <span aria-hidden="true">${accessible?'▶':'🔒'}</span></button>
       ${prev?.complete?`<p class="chm-result-note">${tr('Tu mejor resultado','Personal best')}: ${stars(prev.stars)} · ${(prev.completedAt?new Date(prev.completedAt).toLocaleDateString():'—')}</p>`:''}`;
+    window.PrimalVoice.preloadClip(introPath(f)).catch(()=>{});
     $('pcStart').addEventListener('click',()=>start(selected));
   }
   function savePreviousSettings(){

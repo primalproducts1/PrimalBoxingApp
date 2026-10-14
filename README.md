@@ -21,6 +21,13 @@ No necesita claves, servicios de voz durante el entrenamiento ni compilación.
 Para probar localmente: `npm start`, abrir http://localhost:3000.
 No abras index.html directamente mediante file://: la voz necesita HTTP/HTTPS.
 
+## Revisión completa con audio
+
+Los 18 retratos son los mismos del HTML aportado por el usuario. Este paquete
+incluye también las dependencias que aquel HTML cargaba desde GitHub.
+La presentación del rival se precarga al abrir su ficha y la preparación
+se mantiene hasta que acaba; no se sustituye por voz del dispositivo.
+
 ## Qué cambia
 
 - El reproductor único conserva el MP3 original. Se activa con el toque inicial,
@@ -60,7 +67,7 @@ La señal digital se verificó en Chromium con los MP3 reales. No se dispone
 
 ## Pruebas y límites
 
-`npm test`: 22 pruebas aprobadas. Ver `VALIDACION.md` para evidencia y alcance.
+`npm test`: 24 pruebas aprobadas. Ver `VALIDACION.md` para evidencia y alcance.
 La campaña mide rounds completados; no detecta golpes, defensa ni nocauts.
 
 ## Volver a la versión anterior

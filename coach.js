@@ -15,9 +15,13 @@
  }
  // Optional narrated profiles use exactly the same output as the prerecorded coach.
  const profileCache=new Map();
+ async function loadProfile(url){
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+  try{const response=await fetch(url,{signal:controller.signal});if(!response.ok)throw Error('Profile audio unavailable: '+response.status);return await response.arrayBuffer();}finally{clearTimeout(timeout);}
+ }
  function preloadClip(url){
   const c=graph();
-  if(!profileCache.has(url))profileCache.set(url,fetch(url).then(r=>{if(!r.ok)throw Error('Profile audio unavailable');return r.arrayBuffer();}).then(b=>c.decodeAudioData(b)).catch(e=>{profileCache.delete(url);throw e;}));
+  if(!profileCache.has(url))profileCache.set(url,loadProfile(url).then(b=>c.decodeAudioData(b)).catch(e=>{profileCache.delete(url);throw e;}));
   return profileCache.get(url);
  }
  function playClip(url,done=()=>{}){
@@ -28,7 +32,7 @@
    const source=c.createBufferSource();source.buffer=buffer;source.connect(output);
    source.onended=()=>{if(ticket===serial){sources=[];done();}};
    sources.push(source);source.start();
-  }).catch(e=>{if(ticket!==serial)return;console.warn('PRIMAL profile',e);done();});
+  }).catch(e=>{if(ticket!==serial)return;console.warn('PRIMAL profile',e);$('audioNote').textContent=I.lang==='en'?'The opponent introduction could not load. Check your connection.':'No se pudo cargar la presentación del rival. Revisa la conexión.';done();});
  }
  function attachRecorder(c,destination){graph();if(c!==ctx)throw Error('Shared context required');detachRecorder();mixer=destination;output.connect(mixer);}
  function detachRecorder(){if(mixer&&output){try{output.disconnect(mixer);}catch{}}mixer=null;}
